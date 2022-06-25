@@ -15,6 +15,7 @@ func (cq *cmdQueue) push(cmd Command) {
 	cq.a = append(cq.a, cmd)
 	cq.mu.Unlock()
 	if cq.wait {
+		cq.wait = false
 		cq.notEmpty <- struct{}{}
 	}
 }

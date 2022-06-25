@@ -3,13 +3,13 @@ package engine
 import "fmt"
 
 type Command interface {
-	Execute()
+	Execute(handler Handler)
 }
 
 type printCommand string
 
-func (p printCommand) Execute() {
-	fmt.Println(p)
+func (pc printCommand) Execute(h Handler) {
+	fmt.Println(pc)
 }
 
 type printcCommand struct {
@@ -17,9 +17,16 @@ type printcCommand struct {
 	symbol string
 }
 
-func (p *printcCommand) Execute() {
+func (p *printcCommand) Execute(h Handler) {
+	var str string
 	for i := 0; i < p.count; i++ {
-		fmt.Print(p.symbol)
+		str = str + p.symbol
 	}
-	fmt.Println()
+	h.Post(printCommand(str))
+}
+
+type stopCommand struct{}
+
+func (s stopCommand) Execute(h Handler) {
+	h.(*Loop).stop = true
 }
