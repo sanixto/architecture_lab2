@@ -7,6 +7,9 @@ import (
 )
 
 func Parse(cmdLine string) (Command, error) {
+	if len(cmdLine) == 0 {
+		return nil, fmt.Errorf("ERROR: The empty string.")
+	}
 	sli := strings.Split(cmdLine, " ")
 	length := len(sli)
 
