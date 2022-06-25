@@ -3,3 +3,9 @@ print Hello2
 print Hello3
 err 3 2
 print Hello World!
+printc 9 n
+printc f k
+printc 3 p
+printc 2 geargfe
+printc 1 l
+printc 2 f getg
