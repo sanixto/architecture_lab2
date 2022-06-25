@@ -33,7 +33,8 @@ func main() {
 		row++
 		if errParse != nil {
 			str := "print " + errParse.Error() + " Row: " + strconv.Itoa(row)
-			cmd, _ = engine.Parse(str)
+			eventLoop.Post(engine.ErrorCommand(str))
+			continue
 		}
 		eventLoop.Post(cmd)
 	}
