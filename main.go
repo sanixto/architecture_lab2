@@ -25,17 +25,10 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	// read line by line
-	var row int
 	for scanner.Scan() {
 		cmdLine := scanner.Text()
-		cmd := engine.Parse(cmdLine, row)
-		row++
+		cmd := engine.Parse(cmdLine)
 		eventLoop.Post(cmd)
-	}
-	// handle first encountered error while reading
-	if err := scanner.Err(); err != nil {
-		fmt.Printf("Error while reading file\n")
-		return
 	}
 	eventLoop.AwaitFinish()
 }

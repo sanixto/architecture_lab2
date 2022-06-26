@@ -17,7 +17,7 @@ type printcCommand struct {
 	symbol string
 }
 
-func (p *printcCommand) Execute(h Handler) {
+func (p printcCommand) Execute(h Handler) {
 	var str string
 	for i := 0; i < p.count; i++ {
 		str = str + p.symbol
