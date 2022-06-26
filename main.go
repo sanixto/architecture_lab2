@@ -5,7 +5,6 @@ import (
 	"eventloop/engine"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 func main() {
@@ -29,13 +28,8 @@ func main() {
 	var row int
 	for scanner.Scan() {
 		cmdLine := scanner.Text()
-		cmd, errParse := engine.Parse(cmdLine)
+		cmd := engine.Parse(cmdLine, row)
 		row++
-		if errParse != nil {
-			str := "print " + errParse.Error() + " Row: " + strconv.Itoa(row)
-			eventLoop.Post(engine.ErrorCommand(str))
-			continue
-		}
 		eventLoop.Post(cmd)
 	}
 	// handle first encountered error while reading

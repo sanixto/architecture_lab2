@@ -1,51 +1,50 @@
 package engine
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
 
-func Parse(cmdLine string) (Command, error) {
+func Parse(cmdLine string, row int) Command {
 	if len(cmdLine) == 0 {
-		return nil, fmt.Errorf("ERROR: The empty string.")
+		return printCommand("ERROR: The empty string. Row: " + strconv.Itoa(row))
 	}
 	sli := strings.Split(cmdLine, " ")
 	length := len(sli)
 
 	switch length {
 	case 0:
-		return nil, fmt.Errorf("ERROR: The empty string.")
+		return printCommand("ERROR: The empty string. Row: " + strconv.Itoa(row))
 	case 1:
 		if sli[0] == "print" || sli[0] == "printc" {
-			return nil, fmt.Errorf("ERROR: No arguments.")
+			return printCommand("ERROR: No arguments.")
 		}
-		return nil, fmt.Errorf("ERROR: This command doesn't exist.")
+		return printCommand("ERROR: This command doesn't exist. Row: " + strconv.Itoa(row))
 	case 2:
 		if sli[0] == "print" {
-			return printCommand(sli[1]), nil
+			return printCommand(sli[1])
 		}
 		if sli[0] == "printc" {
-			return nil, fmt.Errorf("ERROR: Too few arguments.")
+			return printCommand("ERROR: Too few arguments. Row: " + strconv.Itoa(row))
 		}
-		return nil, fmt.Errorf("ERROR: This command doesn't exist.")
+		return printCommand("ERROR: This command doesn't exist. Row: " + strconv.Itoa(row))
 	case 3:
 		if sli[0] == "print" {
-			return nil, fmt.Errorf("ERROR: Too many arguments.")
+			return printCommand("ERROR: Too many arguments. Row: " + strconv.Itoa(row))
 		}
 		if sli[0] == "printc" {
 			count, errC := strconv.Atoi(sli[1])
 			if errC != nil {
-				return nil, fmt.Errorf("ERROR: The second argument has to be a number.")
+				return printCommand("ERROR: The second argument has to be a number. Row: " + strconv.Itoa(row))
 			}
 			symbol := sli[2]
 			if len(symbol) > 1 {
-				return nil, fmt.Errorf("ERROR: The third argument has to be a symbol.")
+				return printCommand("ERROR: The third argument has to be a symbol. Row: " + strconv.Itoa(row))
 			}
-			return &printcCommand{count: count, symbol: symbol}, nil
+			return &printcCommand{count: count, symbol: symbol}
 		}
-		return nil, fmt.Errorf("ERROR: This command doesn't exist.")
+		return printCommand("ERROR: This command doesn't exist. Row: " + strconv.Itoa(row))
 	default:
-		return nil, fmt.Errorf("ERROR: Too many arguments.")
+		return printCommand("ERROR: Too many arguments. Row: " + strconv.Itoa(row))
 	}
 }
