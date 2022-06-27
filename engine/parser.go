@@ -6,9 +6,6 @@ import (
 )
 
 func Parse(cmdLine string) Command {
-	if len(cmdLine) == 0 {
-		return printCommand("ERROR: The empty string.")
-	}
 	sli := strings.Fields(cmdLine)
 	length := len(sli)
 
